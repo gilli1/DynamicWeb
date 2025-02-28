@@ -6,7 +6,39 @@
     <title>Document</title>
 </head>
 <body>
-    <script src="E2.js"></script>
-
+    <!DOCTYPE html>
+    <html lang="nl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Café Bestelapp</title>
+    </head>
+    <body>
+        <h1>Café Bestelapp</h1>
+        <div id="bestelling1"></div>
+        <div id="bestelling2"></div>
+        <div id="bestelling3"></div>
+    
+        <script>
+            // De functie maakBestelling
+            const maakBestelling = (drank = "cola", snack = "chips") => ({
+                drank,
+                snack,
+                timestamp: new Date().toLocaleString()
+            });
+    
+            // Maak bestellingen
+            const bestelling1 = maakBestelling();
+            const bestelling2 = maakBestelling("fanta");
+            const bestelling3 = maakBestelling("sprite", "nootjes");
+    
+            // Toon de bestellingen in de HTML
+            document.getElementById("bestelling1").innerHTML = `<strong>Bestelling 1:</strong> ${JSON.stringify(bestelling1)}`;
+            document.getElementById("bestelling2").innerHTML = `<strong>Bestelling 2:</strong> ${JSON.stringify(bestelling2)}`;
+            document.getElementById("bestelling3").innerHTML = `<strong>Bestelling 3:</strong> ${JSON.stringify(bestelling3)}`;
+        </script>
+    </body>
+    </html>
+    
 </body>
 </html>
