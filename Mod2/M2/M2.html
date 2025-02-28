@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studenten Dashboard</title>
+</head>
+<body>
+
+<div id="studentDashboard">
+    <div id="addGrade">
+        <select id="student">
+            <option value="Alex">Alex</option>
+            <option value="Sam">Sam</option>
+            <option value="Jo">Jo</option>
+        </select>
+        <input type="text" id="course" placeholder="Vaknaam">
+        <input type="number" id="grade" placeholder="Score (0-20)">
+        <button id="addGradeButton">Voeg Score Toe</button>
+    </div>
+
+    <div id="studentOverview"></div>
+</div>
+
+<script>
+    const students = {
+        "Alex": [],
+        "Sam": [],
+        "Jo": []
+    };
+
+
+    function addGrade() {
+        const studentName = document.getElementById('student').value;
+        const course = document.getElementById('course').value.trim();
+        const grade = parseInt(document.getElementById('grade').value);
+
+        if (course && !isNaN(grade) && grade >= 0 && grade <= 20) {
+            students[studentName].push({ course, grade });
+            updateOverview();
+        }
+
+
+        document.getElementById('course').value = '';
+        document.getElementById('grade').value = '';
+    }
+
+    function updateOverview() {
+        let overviewHTML = '';
+
+        for (let student in students) {
+            const studentGrades = students[student];
+            let total = 0;
+            let highest = 0;
+            let lowest = 20;
+
+            let studentHTML = `<h2>${student}</h2><ul>`;
+
+    
+            for (let i = 0; i < studentGrades.length; i++) {
+                const grade = studentGrades[i].grade;
+                const course = studentGrades[i].course;
+
+                studentHTML += `<li>${course}: ${grade}</li>`;
+
+                
+                total += grade;
+                
+                if (grade > highest) highest = grade;
+                if (grade < lowest) lowest = grade;
+            }
+
+            const average = studentGrades.length > 0 ? (total / studentGrades.length).toFixed(2) : 0;
+
+            studentHTML += `</ul>
+                <p>Gemiddelde score: ${average}</p>
+                <p>Hoogste score: ${highest}</p>
+                <p>Laagste score: ${lowest}</p>
+                <hr>`;
+
+            overviewHTML += studentHTML;
+        }
+
+    
+        document.getElementById('studentOverview').innerHTML = overviewHTML;
+    }
+
+
+    document.getElementById('addGradeButton').addEventListener('click', addGrade);
+
+</script>
+
+</body>
+</html>
