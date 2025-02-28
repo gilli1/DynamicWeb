@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recept Generator</title>
+</head>
+<body>
+
+<div id="recipeCard">
+    <input type="text" id="recipeName" placeholder="Naam van het recept">
+    <input type="number" id="prepTime" placeholder="Bereidingstijd (minuten)">
+    <textarea id="ingredients" placeholder="Ingrediënten (1 per regel)"></textarea>
+    <button id="generateCard">Genereer Recept Kaart</button>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    // Verkrijg de HTML-elementen
+    const recipeNameInput = document.getElementById('recipeName');
+    const prepTimeInput = document.getElementById('prepTime');
+    const ingredientsInput = document.getElementById('ingredients');
+    const generateCardButton = document.getElementById('generateCard');
+    const resultDiv = document.getElementById('result');
+
+    // Functie om de receptkaart te genereren
+    function generateRecipeCard() {
+        const recipeName = recipeNameInput.value.trim();
+        const prepTime = parseInt(prepTimeInput.value);
+        const ingredientsText = ingredientsInput.value.trim();
+
+        // Ingrediënten omzetten naar een array
+        const ingredients = ingredientsText.split('\n').map(ingredient => ingredient.trim()).filter(Boolean);
+
+        // Zorg ervoor dat alle velden zijn ingevuld
+        if (!recipeName || !prepTime || ingredients.length === 0) {
+            alert('Vul alle velden in.');
+            return;
+        }
+
+        // Genereer de receptkaart met template literals
+        const recipeCard = `
+            <div class="recipe">
+                <h2>🥘 ${recipeName}</h2>
+                <p>⏱️ Bereidingstijd: ${prepTime} minuten</p>
+                <h3>Ingrediënten:</h3>
+                <ul>
+                    ${ingredients.map(ingredient => `<li>- ${ingredient}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+
+        // Toon de gegenereerde receptkaart
+        resultDiv.innerHTML = recipeCard;
+
+        // Maak de invoervelden leeg voor het volgende recept
+        recipeNameInput.value = '';
+        prepTimeInput.value = '';
+        ingredientsInput.value = '';
+    }
+
+    // Voeg een event listener toe voor de knop "Genereer Recept Kaart"
+    generateCardButton.addEventListener('click', generateRecipeCard);
+</script>
+
+</body>
+</html>
