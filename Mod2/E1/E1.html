@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Calculator</title>
+</head>
+<body>
+
+    <div id="scoreCalculator">
+        <input type="number" id="score" placeholder="Voer score in (0-20)">
+        <button id="addScore">Voeg Score Toe</button>
+        
+        <div id="stats">
+            <p>Gemiddelde score: <span id="average">0</span></p>
+            <p>Hoogste score: <span id="highest">0</span></p>
+        </div>
+        
+        <ul id="scoreList"></ul>
+    </div>
+
+    <script>
+        let scores = [];
+        const scoreInput = document.getElementById('score');
+        const addScoreButton = document.getElementById('addScore');
+        const scoreList = document.getElementById('scoreList');
+        const averageSpan = document.getElementById('average');
+        const highestSpan = document.getElementById('highest');
+
+        function updateStats() {
+            if (scores.length > 0) {
+                const total = scores.reduce((acc, score) => acc + score, 0);
+                const average = total / scores.length;
+                const highest = Math.max(...scores);
+                averageSpan.textContent = average.toFixed(2);
+                highestSpan.textContent = highest;
+            } else {
+                averageSpan.textContent = "0";
+                highestSpan.textContent = "0";
+            }
+        }
+
+        function updateScoreList() {
+            scoreList.innerHTML = '';
+            scores.forEach(score => {
+                const listItem = document.createElement('li');
+                listItem.textContent = score;
+                scoreList.appendChild(listItem);
+            });
+        }
+
+        addScoreButton.addEventListener('click', () => {
+            const scoreValue = parseInt(scoreInput.value);
+            if (scoreValue >= 0 && scoreValue <= 20) {
+                scores.push(scoreValue);
+                updateStats();
+                updateScoreList();
+                scoreInput.value = '';
+            } else {
+                alert('Voer een geldige score in tussen 0 en 20.');
+            }
+        });
+    </script>
+
+</body>
+</html>
